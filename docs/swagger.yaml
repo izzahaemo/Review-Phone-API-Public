@@ -1,0 +1,1187 @@
+definitions:
+  controllers.LoginInput:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  controllers.RegisterInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      roleID:
+        type: integer
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - roleID
+    - username
+    type: object
+  controllers.accessmenuInput:
+    properties:
+      menuID:
+        type: integer
+      roleID:
+        type: integer
+    type: object
+  controllers.brandInput:
+    properties:
+      logo:
+        type: string
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+  controllers.brandUser:
+    properties:
+      username:
+        type: string
+    type: object
+  controllers.dataMenu:
+    properties:
+      icon:
+        type: string
+      name:
+        type: string
+      title:
+        type: string
+      url:
+        type: string
+    type: object
+  controllers.menuInput:
+    properties:
+      name:
+        type: string
+    type: object
+  controllers.phoneInput:
+    properties:
+      Cameraback:
+        type: string
+      Camerafront:
+        type: string
+      battery:
+        type: string
+      brandID:
+        type: integer
+      chipset:
+        type: string
+      display:
+        type: string
+      name:
+        type: string
+      pict:
+        type: string
+      ram:
+        type: string
+      username:
+        type: string
+    type: object
+  controllers.phoneUser:
+    properties:
+      username:
+        type: string
+    type: object
+  controllers.reviewInput:
+    properties:
+      isi:
+        type: string
+      phoneID:
+        type: integer
+      userID:
+        type: integer
+    type: object
+  controllers.roleInput:
+    properties:
+      name:
+        type: string
+    type: object
+  controllers.submenuInput:
+    properties:
+      icon:
+        type: string
+      menuID:
+        type: integer
+      title:
+        type: string
+      url:
+        type: string
+    type: object
+  models.Accessmenu:
+    properties:
+      id:
+        type: integer
+      menuID:
+        type: integer
+      roleID:
+        type: integer
+    type: object
+  models.Brand:
+    properties:
+      id:
+        type: integer
+      logo:
+        type: string
+      name:
+        type: string
+    type: object
+  models.Menu:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Phone:
+    properties:
+      Cameraback:
+        type: string
+      Camerafront:
+        type: string
+      battery:
+        type: string
+      brandID:
+        type: integer
+      chipset:
+        type: string
+      created_at:
+        type: string
+      display:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      pict:
+        type: string
+      ram:
+        type: string
+    type: object
+  models.Review:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      isi:
+        type: string
+      phoneID:
+        type: integer
+      userID:
+        type: integer
+    type: object
+  models.Role:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Submenu:
+    properties:
+      icon:
+        type: string
+      id:
+        type: integer
+      menuID:
+        type: integer
+      title:
+        type: string
+      url:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /accessmenu/:
+    post:
+      description: Creating a new Accessmenu.
+      parameters:
+      - description: the body to create a new Accessmenu
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.accessmenuInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Accessmenu'
+      security:
+      - ApiKeyAuth: []
+      summary: Create New Accessmenu`.
+      tags:
+      - Accessmenu
+  /accessmenu/{id}:
+    delete:
+      description: Delete a Accessmenu by id.
+      parameters:
+      - description: Accessmenu id
+        in: path
+        name: id
+        required: true
+        type: string
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete one Accessmenu.
+      tags:
+      - Accessmenu
+    patch:
+      description: Update Accessmenu by id.
+      parameters:
+      - description: Accessmenu id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update age rating category
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.accessmenuInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Accessmenu'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Accessmenu.
+      tags:
+      - Accessmenu
+  /brand:
+    get:
+      description: Get a list of Brand.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Brand'
+            type: array
+      summary: Get all Brand.
+      tags:
+      - Brand
+  /brand/:
+    post:
+      description: Creating a new Brand (only username with role id 1 can do this).
+      parameters:
+      - description: the body to create a new Brand
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.brandInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Brand'
+      security:
+      - ApiKeyAuth: []
+      summary: Create New Brand.
+      tags:
+      - Brand
+  /brand/{id}:
+    delete:
+      description: Delete a Brand by id (only username with role id 1 can do this).
+      parameters:
+      - description: the User
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.brandUser'
+      - description: Brand id
+        in: path
+        name: id
+        required: true
+        type: string
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete one Brand.
+      tags:
+      - Brand
+    get:
+      description: Get a Brand by id.
+      parameters:
+      - description: Brand id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Brand'
+      summary: Get Brand.
+      tags:
+      - Brand
+    patch:
+      description: Update Brand by id (only username with role id 1 can do this).
+      parameters:
+      - description: Brand id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update the Brand
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.brandInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Brand'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Brand.
+      tags:
+      - Brand
+  /brand/picture/{id}:
+    get:
+      description: Get a Brand Picture.
+      parameters:
+      - description: Brand id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: ""
+      summary: Get Brand Picture.
+      tags:
+      - Brand
+  /brand/upload/{id}:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload Brand Picture (.png only!).
+      parameters:
+      - description: Brand id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: image (.png only)
+        in: formData
+        name: file
+        required: true
+        type: file
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Brand Picture.
+      tags:
+      - Brand
+  /login:
+    post:
+      description: Logging in to get jwt token to access admin or Member api by roles.
+      parameters:
+      - description: the body to login a user
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login User.
+      tags:
+      - Auth
+  /menu/:
+    post:
+      description: Creating a new Menu.
+      parameters:
+      - description: the body to create new Menu
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.menuInput'
+      - description: 'Authorization. How to input in swagger : ''Bearer <insert_your_token_here>'''
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Menu'
+      security:
+      - BearerToken: []
+      summary: Create New Menu`.
+      tags:
+      - Menu
+  /menu/{id}:
+    delete:
+      description: Delete a Menu by id.
+      parameters:
+      - description: Menu id
+        in: path
+        name: id
+        required: true
+        type: string
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete one Menu.
+      tags:
+      - Menu
+    patch:
+      description: Update Menu by id.
+      parameters:
+      - description: Menu id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update age rating category
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.menuInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Menu'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Menu.
+      tags:
+      - Menu
+  /menu/role/{id}:
+    get:
+      description: Get an Menu by Role id.
+      parameters:
+      - description: Role id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.dataMenu'
+      summary: Get Menu.
+      tags:
+      - Menu
+  /phone:
+    get:
+      description: Get a list of Phone.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Phone'
+            type: array
+      summary: Get all Phone.
+      tags:
+      - Phone
+  /phone/:
+    post:
+      description: Creating a new Phone (only username with role id 1 can do this).
+      parameters:
+      - description: the body to create a new Phone
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.phoneInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Phone'
+      security:
+      - ApiKeyAuth: []
+      summary: Create New Phone.
+      tags:
+      - Phone
+  /phone/{id}:
+    delete:
+      description: Delete a Phone by id (only username with role id 1 can do this).
+      parameters:
+      - description: the User
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.phoneUser'
+      - description: Phone id
+        in: path
+        name: id
+        required: true
+        type: string
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete one Phone.
+      tags:
+      - Phone
+    get:
+      description: Get a Phone by id.
+      parameters:
+      - description: Phone id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Phone'
+      summary: Get Phone.
+      tags:
+      - Phone
+    patch:
+      description: Update a Phone by id (only username with role id 1 can do this).
+      parameters:
+      - description: Phone id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update Phone
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.phoneInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Phone'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Phone.
+      tags:
+      - Phone
+  /phone/brand/{id}:
+    get:
+      description: Get a Phone by Brand id.
+      parameters:
+      - description: Brand id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Phone'
+      summary: Get Phone By Brand.
+      tags:
+      - Phone
+  /phone/picture/{id}:
+    get:
+      description: Get a Phone Picture.
+      parameters:
+      - description: Phone id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: ""
+      summary: Get Phone Picture.
+      tags:
+      - Phone
+  /phone/upload/{id}:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload Phone Picture (.png only!).
+      parameters:
+      - description: Phone id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: image (.png only)
+        in: formData
+        name: file
+        required: true
+        type: file
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Picture Phone.
+      tags:
+      - Phone
+  /register:
+    post:
+      description: registering a user from public access.
+      parameters:
+      - description: the body to register a user (Role ID 1 = Admin, Role ID 2 = Member)
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RegisterInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register a user.
+      tags:
+      - Auth
+  /review/:
+    post:
+      description: Creating a new Review.
+      parameters:
+      - description: the body to create a new Review
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.reviewInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+      security:
+      - ApiKeyAuth: []
+      summary: Create New Review.
+      tags:
+      - Review
+  /review/{id}:
+    delete:
+      description: Delete a Review by id.
+      parameters:
+      - description: Review id
+        in: path
+        name: id
+        required: true
+        type: string
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete one Review.
+      tags:
+      - Review
+    get:
+      description: Get a Review by id.
+      parameters:
+      - description: Review id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+      summary: Get Review.
+      tags:
+      - Review
+    patch:
+      description: Update Review by id.
+      parameters:
+      - description: Review id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update age rating category
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.reviewInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Review.
+      tags:
+      - Review
+  /review/phone/{id}:
+    get:
+      description: Get a Review by Phone id.
+      parameters:
+      - description: Phone id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+      summary: Get Review by Phone id.
+      tags:
+      - Review
+  /role:
+    get:
+      description: Get a list of Role.
+      parameters:
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Role'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all Role.
+      tags:
+      - Role
+  /role/:
+    post:
+      description: Creating a new Role.
+      parameters:
+      - description: the body to create a new Role
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.roleInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Role'
+      summary: Create New Role`.
+      tags:
+      - Role
+  /role/{id}:
+    delete:
+      description: Delete a Role by id.
+      parameters:
+      - description: Role id
+        in: path
+        name: id
+        required: true
+        type: string
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete one Role.
+      tags:
+      - Role
+    get:
+      description: Get an Role by id.
+      parameters:
+      - description: Role id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Role'
+      summary: Get Role.
+      tags:
+      - Role
+    patch:
+      description: Update Role by id.
+      parameters:
+      - description: Role id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update age rating category
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.roleInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Role'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Role.
+      tags:
+      - Role
+  /submenu:
+    get:
+      description: Get a list of Submenu.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Submenu'
+            type: array
+      summary: Get all Submenu.
+      tags:
+      - Submenu
+  /submenu/:
+    post:
+      description: Creating a new Submenu.
+      parameters:
+      - description: the body to create a new Submenu
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.submenuInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Submenu'
+      security:
+      - ApiKeyAuth: []
+      summary: Create New Submenu`.
+      tags:
+      - Submenu
+  /submenu/{id}:
+    delete:
+      description: Delete a Submenu by id.
+      parameters:
+      - description: Submenu id
+        in: path
+        name: id
+        required: true
+        type: string
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete one Submenu.
+      tags:
+      - Submenu
+    get:
+      description: Get an Submenu by id.
+      parameters:
+      - description: Submenu id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Submenu'
+      summary: Get Submenu.
+      tags:
+      - Submenu
+    patch:
+      description: Update Submenu by id.
+      parameters:
+      - description: Submenu id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: the body to update age rating category
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.submenuInput'
+      - default: Bearer
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Submenu'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Submenu.
+      tags:
+      - Submenu
+swagger: "2.0"
