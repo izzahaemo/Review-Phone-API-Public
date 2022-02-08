@@ -72,10 +72,18 @@ func CreateReview(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	var reviewc models.Review
+	db := c.MustGet("db").(*gorm.DB)
+
+	if err := db.Where("phone_id = ?", input.PhoneID).First(&reviewc).Error; err == nil {
+		if err := db.Where("user_id = ?", input.UserID).First(&reviewc).Error; err == nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "User already write review"})
+			return
+		}
+	}
 
 	// Create Rating
 	review := models.Review{Isi: input.Isi, PhoneID: input.PhoneID, UserID: input.UserID}
-	db := c.MustGet("db").(*gorm.DB)
 	db.Create(&review)
 
 	c.JSON(http.StatusOK, gin.H{"data": review})
