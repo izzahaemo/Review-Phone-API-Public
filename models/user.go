@@ -31,33 +31,33 @@ func VerifyPassword(password, hashedPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
 
-func LoginCheck(username string, password string, db *gorm.DB) (int, string, error) {
+func LoginCheck(username string, password string, db *gorm.DB) (int, int, string, error) {
 
 	var err error
 	var role int = 0
+	var iduser int = 0
 
 	u := User{}
 
 	err = db.Model(User{}).Where("username = ?", username).Take(&u).Error
 
 	if err != nil {
-		return role, "", err
+		return iduser, role, "", err
 	}
-	role = int(u.RoleID)
+
 	err = VerifyPassword(password, u.Password)
 
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
-		return role, "", err
+		return iduser, role, "", err
 	}
-
+	role = int(u.RoleID)
+	iduser = int(u.ID)
 	token, err := token.GenerateToken(u.ID)
 
 	if err != nil {
-		return role, "", err
+		return iduser, role, "", err
 	}
-
-	return role, token, nil
-
+	return iduser, role, token, nil
 }
 
 func (u *User) SaveUser(db *gorm.DB) (*User, error) {

@@ -4,6 +4,7 @@ import (
 	"dataphone/models"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -44,7 +45,7 @@ func Login(c *gin.Context) {
 	u.Password = input.Password
 	u.Pict = "https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png"
 
-	role, token, err := models.LoginCheck(u.Username, u.Password, db)
+	iduser, role, token, err := models.LoginCheck(u.Username, u.Password, db)
 
 	if err != nil {
 		fmt.Println(err)
@@ -53,10 +54,12 @@ func Login(c *gin.Context) {
 	}
 
 	user := map[string]string{
+		"userID":   strconv.Itoa(iduser),
+		"roleID":   strconv.Itoa(role),
 		"username": u.Username,
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "login success", "user": user, "roleid": role, "token": token})
+	c.JSON(http.StatusOK, gin.H{"message": "login success", "user": user, "token": token})
 
 }
 
