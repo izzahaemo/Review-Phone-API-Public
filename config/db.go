@@ -35,10 +35,10 @@ func ConnectDataBase() *gorm.DB {
 		return db
 	} else {
 		//DEVELOPMENT
-		username := ""
+		username := "root"
 		password := ""
-		host := ""
-		database := ""
+		host := "tcp(127.0.0.1)"
+		database := "data_phone"
 
 		dsn := fmt.Sprintf("%v:%v@%v/%v?charset=utf8mb4&parseTime=True&loc=Local", username, password, host, database)
 

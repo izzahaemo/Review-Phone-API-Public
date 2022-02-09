@@ -94,6 +94,7 @@ func GetPhoneByBrand(c *gin.Context) { // Get model if exist
 // @Param Authorization header string true "Insert your access token" default(Bearer )
 // @Produce json
 // @Success 200 {object} models.Phone
+// @Failure 400 {object} FailureUser{} "If Username not Found"
 // @Router /phone/ [post]
 func CreatePhone(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
@@ -134,6 +135,7 @@ func CreatePhone(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Param Authorization header string true "Insert your access token" default(Bearer )
 // @Success 200 {object} models.Phone
+// @Failure 400 {object} FailureForbiden{} "If Username cannot using this"
 // @Router /phone/{id} [patch]
 func UpdatePhone(c *gin.Context) {
 
@@ -188,7 +190,8 @@ func UpdatePhone(c *gin.Context) {
 // @Param id path string true "Phone id"
 // @Security ApiKeyAuth
 // @Param Authorization header string true "Insert your access token" default(Bearer )
-// @Success 200 {object} map[string]boolean
+// @Success 200 {object} Success{}
+// @Failure 400 {object} FailureRecord{} "If the phone not found"
 // @Router /phone/{id} [delete]
 func DeletePhone(c *gin.Context) {
 	// Get model if exist
@@ -233,6 +236,7 @@ func DeletePhone(c *gin.Context) {
 // @Param Authorization header string true "Insert your access token" default(Bearer )
 // @Produce json
 // @Success 200
+// @Failure 400 {object} FailureRecord{} "If the phone not found"
 // @Router /phone/upload/{id} [post]
 func UploadPhone(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)

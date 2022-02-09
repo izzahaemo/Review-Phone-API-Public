@@ -1,4 +1,28 @@
 definitions:
+  controllers.FailureForbiden:
+    properties:
+      error:
+        example: username cannot access this menu
+        type: string
+    type: object
+  controllers.FailureRecord:
+    properties:
+      error:
+        example: Record not found!
+        type: string
+    type: object
+  controllers.FailureUser:
+    properties:
+      error:
+        example: username cannot found
+        type: string
+    type: object
+  controllers.LoginFailed:
+    properties:
+      error:
+        example: username or password is incorrect.
+        type: string
+    type: object
   controllers.LoginInput:
     properties:
       password:
@@ -8,6 +32,19 @@ definitions:
     required:
     - password
     - username
+    type: object
+  controllers.LoginResult:
+    properties:
+      RoleID:
+        type: string
+      Username:
+        type: string
+      message:
+        type: string
+      token:
+        type: string
+      userID:
+        type: string
     type: object
   controllers.RegisterInput:
     properties:
@@ -24,6 +61,12 @@ definitions:
     - password
     - roleID
     - username
+    type: object
+  controllers.Success:
+    properties:
+      message:
+        example: done
+        type: string
     type: object
   controllers.accessmenuInput:
     properties:
@@ -199,7 +242,10 @@ definitions:
         type: string
     type: object
 info:
-  contact: {}
+  contact:
+    email: izzah.aemo@gmail.com
+    name: Muhammad Izzah Aeman
+    url: http://www.izzahaemo.my.id
 paths:
   /accessmenu/:
     post:
@@ -328,6 +374,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Brand'
+        "400":
+          description: If Username not Found
+          schema:
+            $ref: '#/definitions/controllers.FailureUser'
       security:
       - ApiKeyAuth: []
       summary: Create New Brand.
@@ -360,9 +410,11 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties:
-              type: boolean
-            type: object
+            $ref: '#/definitions/controllers.Success'
+        "400":
+          description: If the brand not found
+          schema:
+            $ref: '#/definitions/controllers.FailureRecord'
       security:
       - ApiKeyAuth: []
       summary: Delete one Brand.
@@ -413,6 +465,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Brand'
+        "400":
+          description: If Username cannot using this
+          schema:
+            $ref: '#/definitions/controllers.FailureForbiden'
       security:
       - ApiKeyAuth: []
       summary: Update Brand.
@@ -461,7 +517,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: ""
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Success'
       security:
       - ApiKeyAuth: []
       summary: Upload Brand Picture.
@@ -481,10 +539,13 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Result Login
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/controllers.LoginResult'
+        "400":
+          description: If Login Failed
+          schema:
+            $ref: '#/definitions/controllers.LoginFailed'
       summary: Login User.
       tags:
       - Auth
@@ -634,6 +695,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Phone'
+        "400":
+          description: If Username not Found
+          schema:
+            $ref: '#/definitions/controllers.FailureUser'
       security:
       - ApiKeyAuth: []
       summary: Create New Phone.
@@ -666,9 +731,11 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties:
-              type: boolean
-            type: object
+            $ref: '#/definitions/controllers.Success'
+        "400":
+          description: If the phone not found
+          schema:
+            $ref: '#/definitions/controllers.FailureRecord'
       security:
       - ApiKeyAuth: []
       summary: Delete one Phone.
@@ -719,6 +786,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Phone'
+        "400":
+          description: If Username cannot using this
+          schema:
+            $ref: '#/definitions/controllers.FailureForbiden'
       security:
       - ApiKeyAuth: []
       summary: Update Phone.
@@ -787,6 +858,10 @@ paths:
       responses:
         "200":
           description: ""
+        "400":
+          description: If the phone not found
+          schema:
+            $ref: '#/definitions/controllers.FailureRecord'
       security:
       - ApiKeyAuth: []
       summary: Upload Picture Phone.
@@ -836,6 +911,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Review'
+        "400":
+          description: If Username not Found
+          schema:
+            $ref: '#/definitions/controllers.FailureUser'
       security:
       - ApiKeyAuth: []
       summary: Create New Review.
@@ -862,9 +941,11 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties:
-              type: boolean
-            type: object
+            $ref: '#/definitions/controllers.Success'
+        "400":
+          description: If the review not found
+          schema:
+            $ref: '#/definitions/controllers.FailureRecord'
       security:
       - ApiKeyAuth: []
       summary: Delete one Review.
@@ -915,6 +996,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Review'
+        "400":
+          description: If the review not found
+          schema:
+            $ref: '#/definitions/controllers.FailureRecord'
       security:
       - ApiKeyAuth: []
       summary: Update Review.

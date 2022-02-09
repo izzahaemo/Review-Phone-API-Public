@@ -22,13 +22,41 @@ type RegisterInput struct {
 	RoleID   int    `json:"roleID" binding:"required"`
 }
 
+type LoginResult struct {
+	Message  string `json:"message"`
+	Token    string `json:"token"`
+	UserID   string `json:"userID"`
+	RoleID   string `json:"RoleID"`
+	Username string `json:"Username"`
+}
+type LoginFailed struct {
+	Error string `json:"error" example:"username or password is incorrect."`
+}
+
+type Success struct {
+	Message string `json:"message" example:"done"`
+}
+
+type FailureUser struct {
+	Error string `json:"error" example:"username cannot found"`
+}
+
+type FailureForbiden struct {
+	Error string `json:"error" example:"username cannot access this menu"`
+}
+
+type FailureRecord struct {
+	Error string `json:"error" example:"Record not found!"`
+}
+
 // LoginUser godoc
 // @Summary Login User.
 // @Description Logging in to get jwt token to access admin or Member api by roles.
 // @Tags Auth
 // @Param Body body LoginInput true "the body to login a user"
 // @Produce json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} LoginResult{} "Result Login"
+// @Failure 400 {object} LoginFailed{} "If Login Failed"
 // @Router /login [post]
 func Login(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)

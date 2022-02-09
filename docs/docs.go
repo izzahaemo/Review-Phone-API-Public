@@ -17,7 +17,11 @@ var doc = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "Muhammad Izzah Aeman",
+            "url": "http://www.izzahaemo.my.id",
+            "email": "izzah.aemo@gmail.com"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -224,6 +228,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/models.Brand"
                         }
+                    },
+                    "400": {
+                        "description": "If Username not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureUser"
+                        }
                     }
                 }
             }
@@ -298,7 +308,10 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.Success"
+                        }
                     }
                 }
             }
@@ -375,10 +388,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "boolean"
-                            }
+                            "$ref": "#/definitions/controllers.Success"
+                        }
+                    },
+                    "400": {
+                        "description": "If the brand not found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureRecord"
                         }
                     }
                 }
@@ -429,6 +445,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/models.Brand"
                         }
+                    },
+                    "400": {
+                        "description": "If Username cannot using this",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureForbiden"
+                        }
                     }
                 }
             }
@@ -456,10 +478,15 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Result Login",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/controllers.LoginResult"
+                        }
+                    },
+                    "400": {
+                        "description": "If Login Failed",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.LoginFailed"
                         }
                     }
                 }
@@ -695,6 +722,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/models.Phone"
                         }
+                    },
+                    "400": {
+                        "description": "If Username not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureUser"
+                        }
                     }
                 }
             }
@@ -799,6 +832,12 @@ var doc = `{
                 "responses": {
                     "200": {
                         "description": ""
+                    },
+                    "400": {
+                        "description": "If the phone not found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureRecord"
+                        }
                     }
                 }
             }
@@ -875,10 +914,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "boolean"
-                            }
+                            "$ref": "#/definitions/controllers.Success"
+                        }
+                    },
+                    "400": {
+                        "description": "If the phone not found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureRecord"
                         }
                     }
                 }
@@ -928,6 +970,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Phone"
+                        }
+                    },
+                    "400": {
+                        "description": "If Username cannot using this",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureForbiden"
                         }
                     }
                 }
@@ -1004,6 +1052,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Review"
+                        }
+                    },
+                    "400": {
+                        "description": "If Username not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureUser"
                         }
                     }
                 }
@@ -1101,10 +1155,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "boolean"
-                            }
+                            "$ref": "#/definitions/controllers.Success"
+                        }
+                    },
+                    "400": {
+                        "description": "If the review not found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureRecord"
                         }
                     }
                 }
@@ -1154,6 +1211,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Review"
+                        }
+                    },
+                    "400": {
+                        "description": "If the review not found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FailureRecord"
                         }
                     }
                 }
@@ -1539,6 +1602,42 @@ var doc = `{
         }
     },
     "definitions": {
+        "controllers.FailureForbiden": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "username cannot access this menu"
+                }
+            }
+        },
+        "controllers.FailureRecord": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Record not found!"
+                }
+            }
+        },
+        "controllers.FailureUser": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "username cannot found"
+                }
+            }
+        },
+        "controllers.LoginFailed": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "username or password is incorrect."
+                }
+            }
+        },
         "controllers.LoginInput": {
             "type": "object",
             "required": [
@@ -1550,6 +1649,26 @@ var doc = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.LoginResult": {
+            "type": "object",
+            "properties": {
+                "RoleID": {
+                    "type": "string"
+                },
+                "Username": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "userID": {
                     "type": "string"
                 }
             }
@@ -1574,6 +1693,15 @@ var doc = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "controllers.Success": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "done"
                 }
             }
         },

@@ -64,6 +64,7 @@ func GetReviewByPhone(c *gin.Context) { // Get model if exist
 // @Param Authorization header string true "Insert your access token" default(Bearer )
 // @Produce json
 // @Success 200 {object} models.Review
+// @Failure 400 {object} FailureUser{} "If Username not Found"
 // @Router /review/ [post]
 func CreateReview(c *gin.Context) {
 	// Validate input
@@ -99,6 +100,7 @@ func CreateReview(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Param Authorization header string true "Insert your access token" default(Bearer )
 // @Success 200 {object} models.Review
+// @Failure 400 {object} FailureRecord{} "If the review not found"
 // @Router /review/{id} [patch]
 func UpdateReview(c *gin.Context) {
 
@@ -135,7 +137,8 @@ func UpdateReview(c *gin.Context) {
 // @Param id path string true "Review id"
 // @Security ApiKeyAuth
 // @Param Authorization header string true "Insert your access token" default(Bearer )
-// @Success 200 {object} map[string]boolean
+// @Success 200 {object} Success{}
+// @Failure 400 {object} FailureRecord{} "If the review not found"
 // @Router /review/{id} [delete]
 func DeleteReview(c *gin.Context) {
 	// Get model if exist

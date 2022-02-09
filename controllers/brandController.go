@@ -21,6 +21,8 @@ type brandUser struct {
 	Username string `json:"username"`
 }
 
+
+
 // GetAllBrand godoc
 // @Summary Get all Brand.
 // @Description Get a list of Brand.
@@ -66,6 +68,7 @@ func GetBrandById(c *gin.Context) { // Get model if exist
 // @Param Authorization header string true "Insert your access token" default(Bearer )
 // @Produce json
 // @Success 200 {object} models.Brand
+// @Failure 400 {object} FailureUser{} "If Username not Found"
 // @Router /brand/ [post]
 func CreateBrand(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
@@ -106,6 +109,7 @@ func CreateBrand(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Param Authorization header string true "Insert your access token" default(Bearer )
 // @Success 200 {object} models.Brand
+// @Failure 400 {object} FailureForbiden{} "If Username cannot using this"
 // @Router /brand/{id} [patch]
 func UpdateBrand(c *gin.Context) {
 
@@ -153,7 +157,8 @@ func UpdateBrand(c *gin.Context) {
 // @Param id path string true "Brand id"
 // @Security ApiKeyAuth
 // @Param Authorization header string true "Insert your access token" default(Bearer )
-// @Success 200 {object} map[string]boolean
+// @Success 200 {object} Success{}
+// @Failure 400 {object} FailureRecord{} "If the brand not found"
 // @Router /brand/{id} [delete]
 func DeleteBrand(c *gin.Context) {
 	// Get model if exist
@@ -197,7 +202,7 @@ func DeleteBrand(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Param Authorization header string true "Insert your access token" default(Bearer )
 // @Produce json
-// @Success 200
+// @Success 200 {object} Success{}
 // @Router /brand/upload/{id} [post]
 func UploadBrand(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
